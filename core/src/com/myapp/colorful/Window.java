@@ -7,6 +7,8 @@ public class Window {
 
     public void create() {}
 
-    public void render(SpriteBatch batch){}
+    public void render() {}
+
+    public void dispose() {}
 
 }

@@ -11,6 +11,8 @@ public class MenuWindow extends Window {
     Texture settingsButton;
     Texture howToPlayButton;
 
+    SpriteBatch batch;
+
     Texture img;
 
     public void create() {
@@ -18,15 +20,23 @@ public class MenuWindow extends Window {
         //settingsButton = new Texture("settingsbutton.png");
         //howToPlayButton = new Texture("howtoplaybutton.jpg");
         img = new Texture("badlogic.png");
+
+        batch = new SpriteBatch();
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
+        batch.begin();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //batch.draw(startButton, 0, 0);
         //batch.draw(settingsButton, 0, 200);
         //batch.draw(howToPlayButton, 0, 400);
-        batch.draw(img,0,0);
+        //batch.draw(img,0,0);
+        batch.end();
+    }
+
+    public void dispose() {
+        batch.dispose();
     }
 
 
