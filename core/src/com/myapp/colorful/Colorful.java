@@ -18,6 +18,9 @@ public class Colorful extends ApplicationAdapter {
 	@Override
 	public void render () {
 		window.render();
+		if(window.nextWindow == "game") {
+			window = new GameWindow();
+		}
 	}
 	
 	@Override

@@ -10,6 +10,8 @@ public class Window {
 
     int screenWidth = Gdx.graphics.getWidth();
     int screenHeight = Gdx.graphics.getHeight();
+    String nextWindow = "default";
+    boolean isTouched = false;
 
     public void create() {}
 
