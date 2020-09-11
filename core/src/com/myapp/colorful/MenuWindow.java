@@ -10,24 +10,34 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.ArrayList;
+
 public class MenuWindow extends Window {
 
     Button startButton;
     Button settingsButton;
     Button howToPlayButton;
     Button quitButton;
+    ArrayList<Button> buttons = new ArrayList<Button>();
 
-    SpriteBatch batch;
+    int lastX = 0;
+    int lastY = 0;
 
     public void create() {
-        startButton = new Button(screenWidth * 1/3, screenHeight * 5/7, screenWidth * 1/3, screenHeight * 1/7);
+        //create buttons
+        startButton = new Button(screenWidth * 1/3, screenHeight * 7/9, screenWidth * 1/3, screenHeight * 1/9);
         startButton.setImages(new Texture("startgamebutton.png"), new Texture("settingsbutton.png"));
-        settingsButton = new Button(screenWidth * 1/3, screenHeight * 3/7, screenWidth * 1/3, screenHeight * 1/7);
+        settingsButton = new Button(screenWidth * 1/3, screenHeight * 5/9, screenWidth * 1/3, screenHeight * 1/9);
         settingsButton.setImages(new Texture("settingsbutton.png"), new Texture("settingsbutton.png"));
-        howToPlayButton = new Button(screenWidth * 1/3, screenHeight * 1/7, screenWidth * 1/3, screenHeight * 1/7);
+        howToPlayButton = new Button(screenWidth * 1/3, screenHeight * 3/9, screenWidth * 1/3, screenHeight * 1/9);
         howToPlayButton.setImages(new Texture("howtoplaybutton.jpg"), new Texture("howtoplaybutton.jpg"));
-        quitButton = new Button(0,0,100,100);
+        quitButton = new Button(screenWidth * 1/3,screenHeight * 1/9,screenWidth * 1/3,screenHeight * 1/9);
         quitButton.setImages(new Texture("startgamebutton.png"), new Texture("startgamebutton.png"));
+
+        buttons.add(startButton);
+        buttons.add(settingsButton);
+        buttons.add(howToPlayButton);
+        buttons.add(quitButton);
 
         batch = new SpriteBatch();
     }
@@ -38,44 +48,40 @@ public class MenuWindow extends Window {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        startButton.draw(batch);
-        settingsButton.draw(batch);
-        howToPlayButton.draw(batch);
-        //quitButton.draw(batch);
-
-        int lastX = 0;
-        int lastY = 0;
+        //draw buttons
+        for(int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).draw(batch);
+        }
 
         if(Gdx.input.isTouched()) {
             isTouched = true;
             int x = Gdx.input.getX();
-            int y = Gdx.input.getY();
+            int y = screenHeight - Gdx.input.getY();
             lastX = x;
             lastY = y;
-            if(startButton.isTouched(x,y)) {
-                startButton.actualImg = startButton.downImg;
-            }
-            else {
-                startButton.actualImg = startButton.upImg;
+
+            for(int i = 0; i < buttons.size(); i++) {
+                Button button = buttons.get(i);
+                if(button.isTouched(x,y)) {
+                    button.actualImg = button.downImg;
+                }
+                else {
+                    button.actualImg = button.upImg;
+                }
             }
         }
 
         if(!Gdx.input.isTouched() && isTouched) {
             isTouched = false;
-            if(startButton.isTouched(lastX,lastY)) {
-                this.nextWindow = "game";
+            for(int i = 0; i < buttons.size(); i++ ) {
+                if(buttons.get(i).isTouched(lastX, lastY)) {
+                    this.nextWindow = windowTypes.get(i);
+                    break;
+                }
             }
         }
 
-
-
         batch.end();
     }
-
-    public void dispose() {
-        batch.dispose();
-    }
-
-
 
 }

@@ -7,25 +7,29 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Colorful extends ApplicationAdapter {
-	Window window;
+
+	Game game;
+	SpriteBatch batch;
 
 	@Override
 	public void create () {
-		window = new MenuWindow();
-		window.create();
+		this.game = new Game();
+		this.batch = new SpriteBatch();
 	}
 
 	@Override
 	public void render () {
-		window.render();
-		if(window.nextWindow == "game") {
-			window = new GameWindow();
+		for(int i = 0; i < this.game.modules.size(); i++) {
+			Module module = this.game.modules.get(i);
+			if(module.visible) {
+				module.render(this.batch);
+			}
 		}
 	}
-	
+
 	@Override
 	public void dispose () {
-		window.dispose();
+		this.batch.dispose();
 	}
 
 }
